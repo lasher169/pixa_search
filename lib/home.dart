@@ -2,7 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PixabayHomePage extends StatelessWidget {
-  PixabayHomePage({Key? key}) : super(key: key);
+
+  String str = '';
+  Function changeValue;
+
+  PixabayHomePage(this.str, this.changeValue);
 
   final TextEditingController _textController = TextEditingController(text: '');
   List items = List.generate(50, (index) => "This is item $index");
@@ -29,6 +33,9 @@ class PixabayHomePage extends StatelessWidget {
                           placeholder: 'Search',
                           onChanged: (String value) {
                             print('this is value $value');
+                            // if(value.length >= 4) {
+                             changeValue(value);
+                            // }
                           },
                         )
                     ),
@@ -44,7 +51,7 @@ class PixabayHomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ListTile(
-                      title: Text(items[index]),
+                      title: Text(str),
                     ),
                     Divider(
                       height: 100,

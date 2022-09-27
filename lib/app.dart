@@ -3,10 +3,25 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import './home.dart';
 
-class PixaSearchApp extends StatelessWidget {
-  const PixaSearchApp({Key? key}) : super(key: key);
+class PixaSearchApp extends StatefulWidget {
 
-  // This widget is the root of your application.
+  @override
+  State<StatefulWidget> createState() {
+    return _PixaSearchAppState();
+  }
+}
+
+class _PixaSearchAppState extends State<PixaSearchApp> {
+
+  String _str = '';
+
+  void _changeValue(String value){
+    print('this is changed $value');
+    setState((){
+      // _str = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return CupertinoApp(
@@ -16,7 +31,7 @@ class PixaSearchApp extends StatelessWidget {
         DefaultWidgetsLocalizations.delegate,
       ],
       theme: CupertinoThemeData(brightness: Brightness.light),
-      home: PixabayHomePage(),
+      home: PixabayHomePage(_str, _changeValue),
     );
   }
 }
