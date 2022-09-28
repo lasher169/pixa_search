@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'models/pixa_results.dart';
 
 class PixabayHomePage extends StatelessWidget {
-  Future<PixaResults> futurePixaResults;
+  Future<PixaResults>? futurePixaResults;
   var myController;
 
   PixabayHomePage(this.myController, this.futurePixaResults);
@@ -31,37 +31,65 @@ class PixabayHomePage extends StatelessWidget {
                     child: CupertinoSearchTextField(
                       controller: myController,
                       placeholder: 'Search',
-                      // onChanged: (String value) {
-                      //   str = value;
-                      //   print('this is value $str');
-                      //   // if(value.length >= 4) {
-                      //   //  changeValue(value);
-                      //   // }
-                      // },
                     )),
               ],
             )),
           )),
       body: CupertinoScrollbar(
-        child: FutureBuilder<Album>(
-          future: futureAlbum,
-        // ListView.builder(
-        //   itemBuilder: (context, index) {
-        //     final Hits hits = this.futurePixaResults.hits![index];
-        //     return Material(
-        //         child: Column(
-        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //       children: [
-        //         Image.network(''),
-        //         Divider(
-        //           height: 100,
-        //         )
-        //       ],
-        //     ));
-        //   },
-        //   itemCount: items.length,
-        // ),
-      ),
+        child: FutureBuilder<PixaResults>(
+          future: futurePixaResults,
+          builder: (BuildContext context, AsyncSnapshot<PixaResults> snapshot) {
+            if(!snapshot.hasData){
+              print('no data');
+              return Text('');
+            }else{
+              return ListView.builder(
+                itemCount: snapshot.data?.hits?.length,
+                itemBuilder:(context, index) {
+                  print('yes data');
+                  String? tags = snapshot.data?.hits?[index].tags;
+                  String? user = snapshot.data?.hits?[index].user;
+                  String? imageUrl = snapshot.data?.hits?[index].largeImageURL;
+                  return Material(
+                      child: Column(
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            child: Image(
+                                image: NetworkImage(imageUrl as String),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              child: Text(
+                                '${user}',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              child: Text(
+                                '${tags}',
+                              ),
+                            ),
+                          ),
+                          Divider(
+                            height: 10,
+                            color: Colors.transparent,
+                          )
+                        ],
+                      )
+                  );
+                },
+              );
+            }
+          }
+        ),
+        // child: Text(''),
+      )
     );
   }
 }

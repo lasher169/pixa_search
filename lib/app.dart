@@ -16,10 +16,9 @@ class PixaSearchApp extends StatefulWidget {
 
 class _PixaSearchAppState extends State<PixaSearchApp> {
   final myController = TextEditingController();
-  late Future<PixaResults> futurePixaResults;
+  Future<PixaResults>? futurePixaResults;
 
   Future<PixaResults> fetchPixaResults() async {
-    print('calling method');
 
     final response = await http.get(Uri.parse(
         'https://pixabay.com/api/?key=30140123-68f55f4801af03afee214a954&q=${myController.text}&image_type=photo&pretty=true'));
@@ -28,9 +27,9 @@ class _PixaSearchAppState extends State<PixaSearchApp> {
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-      var x = PixaResults.fromJson(jsonDecode(response.body));
-      print('${x}');
-      return x;
+      PixaResults pixaResults = PixaResults.fromJson(jsonDecode(response.body));
+      // print('image ${pixaResults?.hits?[0].largeImageURL}');
+      return pixaResults;
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -53,11 +52,11 @@ class _PixaSearchAppState extends State<PixaSearchApp> {
     super.dispose();
   }
 
-  void _printLatestValue() {
-    print('Second text field ${myController.text}');
+  void _printLatestValue() async{
     setState(() {
       if (myController.text.length > 3) {
-        futurePixaResults = fetchPixaResults();
+        // print('Second text field ${myController.text}');
+        this.futurePixaResults = fetchPixaResults();
       }
     });
   }
