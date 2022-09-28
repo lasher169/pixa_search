@@ -55,13 +55,20 @@ class PixabayHomePage extends StatelessWidget {
                         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            child: Image(
+                            padding: EdgeInsets.all(10),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image(
                                 image: NetworkImage(imageUrl as String),
-                            ),
+                              ),
+                            )
+
+
                           ),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Container(
+                              padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                               child: Text(
                                 '${user}',
                                 style: TextStyle(fontWeight: FontWeight.bold),
@@ -71,6 +78,7 @@ class PixabayHomePage extends StatelessWidget {
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Container(
+                              padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                               child: Text(
                                 '${tags}',
                               ),
