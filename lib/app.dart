@@ -19,7 +19,6 @@ class _PixaSearchAppState extends State<PixaSearchApp> {
   Future<PixaResults>? futurePixaResults;
 
   Future<PixaResults> fetchPixaResults() async {
-
     final response = await http.get(Uri.parse(
         'https://pixabay.com/api/?key=30140123-68f55f4801af03afee214a954&q=${myController.text}&image_type=photo&pretty=true'));
 
@@ -52,7 +51,7 @@ class _PixaSearchAppState extends State<PixaSearchApp> {
     super.dispose();
   }
 
-  void _printLatestValue() async{
+  void _printLatestValue() async {
     setState(() {
       if (myController.text.length > 3) {
         // print('Second text field ${myController.text}');
@@ -63,7 +62,7 @@ class _PixaSearchAppState extends State<PixaSearchApp> {
 
   @override
   Widget build(BuildContext context) {
-    print('redraw');
+    // print('redraw');
     return CupertinoApp(
       localizationsDelegates: [
         DefaultMaterialLocalizations.delegate,

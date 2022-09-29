@@ -14,57 +14,56 @@ class PixabayHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-          preferredSize: Size.fromHeight(100.0),
-          child: Container(
-            height: 150,
-            child: CupertinoNavigationBar(
-                // backgroundColor: Colors.white,
-                middle: Column(
-              children: [
-                Container(
-                  child: Text('Pixabay'),
-                  margin: EdgeInsets.only(bottom: 20),
-                ),
-                Container(
-                    margin: EdgeInsets.only(),
-                    child: CupertinoSearchTextField(
-                      controller: myController,
-                      placeholder: 'Search',
-                    )),
-              ],
+        appBar: PreferredSize(
+            preferredSize: Size.fromHeight(100.0),
+            child: Container(
+              height: 150,
+              child: CupertinoNavigationBar(
+                  // backgroundColor: Colors.white,
+                  middle: Column(
+                children: [
+                  Container(
+                    child: Text('Pixabay'),
+                    margin: EdgeInsets.only(bottom: 20),
+                  ),
+                  Container(
+                      margin: EdgeInsets.only(),
+                      child: CupertinoSearchTextField(
+                        controller: myController,
+                        placeholder: 'Search',
+                      )),
+                ],
+              )),
             )),
-          )),
-      body: CupertinoScrollbar(
-        child: FutureBuilder<PixaResults>(
-          future: futurePixaResults,
-          builder: (BuildContext context, AsyncSnapshot<PixaResults> snapshot) {
-            if(!snapshot.hasData){
-              print('no data');
-              return Text('');
-            }else{
-              return ListView.builder(
-                itemCount: snapshot.data?.hits?.length,
-                itemBuilder:(context, index) {
-                  print('yes data');
-                  String? tags = snapshot.data?.hits?[index].tags;
-                  String? user = snapshot.data?.hits?[index].user;
-                  String? imageUrl = snapshot.data?.hits?[index].largeImageURL;
-                  return Material(
-                      child: Column(
+        body: CupertinoScrollbar(
+          child: FutureBuilder<PixaResults>(
+              future: futurePixaResults,
+              builder:
+                  (BuildContext context, AsyncSnapshot<PixaResults> snapshot) {
+                if (!snapshot.hasData) {
+                  // print('no data');
+                  return Text('');
+                } else {
+                  return ListView.builder(
+                    itemCount: snapshot.data?.hits?.length,
+                    itemBuilder: (context, index) {
+                      // print('yes data');
+                      String? tags = snapshot.data?.hits?[index].tags;
+                      String? user = snapshot.data?.hits?[index].user;
+                      String? imageUrl =
+                          snapshot.data?.hits?[index].largeImageURL;
+                      return Material(
+                          child: Column(
                         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            padding: EdgeInsets.all(10),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image(
-                                image: NetworkImage(imageUrl as String),
-                              ),
-                            )
-
-
-                          ),
+                              padding: EdgeInsets.all(10),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image(
+                                  image: NetworkImage(imageUrl as String),
+                                ),
+                              )),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Container(
@@ -89,15 +88,12 @@ class PixabayHomePage extends StatelessWidget {
                             color: Colors.transparent,
                           )
                         ],
-                      )
+                      ));
+                    },
                   );
-                },
-              );
-            }
-          }
-        ),
-        // child: Text(''),
-      )
-    );
+                }
+              }),
+          // child: Text(''),
+        ));
   }
 }
