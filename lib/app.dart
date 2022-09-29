@@ -17,10 +17,14 @@ class PixaSearchApp extends StatefulWidget {
 class _PixaSearchAppState extends State<PixaSearchApp> {
   final myController = TextEditingController();
   Future<PixaResults>? futurePixaResults;
+  String? pixaKey;
 
   Future<PixaResults> fetchPixaResults() async {
-    final response = await http.get(Uri.parse(
-        'https://pixabay.com/api/?key=30140123-68f55f4801af03afee214a954&q=${myController.text}&image_type=photo&pretty=true'));
+
+    var finalUrl =   'https://pixabay.com/api/?image_type=photo&pretty=true&key=${pixaKey}&q=${myController.text}';
+    print('final ${finalUrl}');
+
+    final response = await http.get(Uri.parse(finalUrl as String));
 
     print('calling method ${response.statusCode}');
     if (response.statusCode == 200) {
@@ -36,11 +40,20 @@ class _PixaSearchAppState extends State<PixaSearchApp> {
     }
   }
 
+  Future<void> loadAsset(BuildContext context) async {
+    final jsonString = await DefaultAssetBundle.of(context)
+        .loadString('assets/my_config.json');
+    final dynamic jsonMap = jsonDecode(jsonString);
+    print('pixaKey ${jsonMap['pixaUrl']}');
+    pixaKey = jsonMap['pixaUrl'];
+  }
+
   @override
   void initState() {
     super.initState();
     // TODO: implement initState
     myController.addListener(_printLatestValue);
+    loadAsset(context);
   }
 
   @override
